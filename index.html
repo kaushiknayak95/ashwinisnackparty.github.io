@@ -790,12 +790,12 @@
         <div id="checkout-summary-items"></div>
 
         <div class="checkout-summary-total">
-          <span>Subtotal</span>
-          <strong id="checkout-total">₹0</strong>
+        <span>Total</span>
+        <strong id="checkout-total">₹0</strong>
         </div>
 
-        <div class="shipping-note">
-          Shipping charges will be calculated before payment.
+        <div class="shipping-note" id="shipping-note">
+        Shipping charges will be calculated based on order weight.
         </div>
 
       </div>
@@ -1097,47 +1097,73 @@ function closeCheckout(){
 
 
 function renderCheckout(){
-
   const summary = document.getElementById('checkout-summary-items');
   const totalElement = document.getElementById('checkout-total');
+  const shippingNote = document.getElementById('shipping-note');
 
   if(cart.length === 0){
     summary.innerHTML = '<p>Your cart is empty.</p>';
     totalElement.textContent = '₹0';
+    shippingNote.textContent = 'Your cart is empty.';
     return;
   }
 
-  let total = 0;
+  let subtotal = 0;
+  let totalQuantity = 0;
 
   summary.innerHTML = cart.map(item => {
-
     const itemTotal = item.price * item.quantity;
-
-    total += itemTotal;
+    subtotal += itemTotal;
+    totalQuantity += item.quantity;
 
     return `
       <div class="checkout-summary-item">
-
         <div>
-          <div class="checkout-summary-item-name">
-            ${item.name}
-          </div>
-
+          <div class="checkout-summary-item-name">${item.name}</div>
           <div class="checkout-summary-item-details">
             ${item.quantity} × 200g × ₹${item.price}
           </div>
         </div>
-
-        <div class="checkout-summary-item-price">
-          ₹${itemTotal}
-        </div>
-
+        <div class="checkout-summary-item-price">₹${itemTotal}</div>
       </div>
     `;
-
   }).join('');
 
-  totalElement.textContent = '₹' + total;
+  const weightKg = totalQuantity * 0.2;
+
+  let shipping = 0;
+
+  if(subtotal < 800){
+
+    if(weightKg <= 1){
+      shipping = 100;
+    }else if(weightKg <= 2){
+      shipping = 150;
+    }else if(weightKg <= 3){
+      shipping = 200;
+    }else{
+      shipping = 250;
+
+      if(weightKg > 5){
+        const extraKg = Math.ceil(weightKg - 5);
+        shipping += extraKg * 50;
+      }
+    }
+
+  }
+
+  const grandTotal = subtotal + shipping;
+
+  totalElement.textContent = '₹' + grandTotal;
+
+  if(subtotal >= 800){
+    shippingNote.innerHTML =
+      '<strong>Free shipping!</strong> Your order is ₹800 or more.';
+  }else{
+    shippingNote.innerHTML =
+      `Order weight: <strong>${weightKg.toFixed(1)} kg</strong> · ` +
+      `Shipping: <strong>₹${shipping}</strong>`;
+  }
 }
 
 
