@@ -147,6 +147,249 @@
       .footer-inner{display:block}.footer-inner small{display:block;margin-top:8px}
       .sticker{width:85px;height:85px;font-size:.6rem}
     }
+    /* CART */
+
+.cart-button{
+  border:0;
+  background:var(--black);
+  color:var(--yellow);
+  padding:11px 16px;
+  border-radius:999px;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+#cart-count{
+  display:inline-grid;
+  place-items:center;
+  min-width:22px;
+  height:22px;
+  padding:0 5px;
+  margin-left:4px;
+  border-radius:50%;
+  background:var(--yellow);
+  color:var(--black);
+  font-size:.75rem;
+}
+
+.product-bottom{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:16px;
+}
+
+.product-bottom strong{
+  font-size:1.15rem;
+  white-space:nowrap;
+}
+
+.product-bottom strong span{
+  font-size:.72rem;
+  color:#666;
+  font-weight:700;
+}
+
+.add-cart{
+  border:2px solid var(--black);
+  background:var(--black);
+  color:var(--yellow);
+  border-radius:999px;
+  padding:10px 13px;
+  font-weight:900;
+  cursor:pointer;
+  font-size:.78rem;
+  transition:.2s ease;
+}
+
+.add-cart:hover{
+  background:var(--yellow);
+  color:var(--black);
+  transform:translateY(-2px);
+}
+
+/* Cart overlay */
+
+.cart-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:90;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s ease;
+}
+
+.cart-overlay.open{
+  opacity:1;
+  visibility:visible;
+}
+
+/* Cart drawer */
+
+.cart-drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(420px,100%);
+  height:100vh;
+  background:var(--white);
+  z-index:100;
+  transform:translateX(100%);
+  transition:.3s ease;
+  display:flex;
+  flex-direction:column;
+  box-shadow:-10px 0 40px rgba(0,0,0,.18);
+}
+
+.cart-drawer.open{
+  transform:translateX(0);
+}
+
+.cart-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:22px;
+  background:var(--yellow);
+  border-bottom:2px solid var(--black);
+}
+
+.cart-header h2{
+  font-size:2rem;
+}
+
+.cart-close{
+  border:0;
+  background:var(--black);
+  color:var(--yellow);
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:1.2rem;
+  font-weight:900;
+}
+
+.cart-items{
+  flex:1;
+  overflow-y:auto;
+  padding:20px;
+}
+
+.cart-empty{
+  text-align:center;
+  color:#666;
+  padding:60px 20px;
+}
+
+.cart-item{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.cart-item h3{
+  font-size:1rem;
+  text-transform:uppercase;
+}
+
+.cart-item-price{
+  margin-top:4px;
+  color:#555;
+  font-size:.9rem;
+}
+
+.cart-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+
+.quantity-button{
+  width:30px;
+  height:30px;
+  border:2px solid var(--black);
+  background:var(--white);
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:900;
+}
+
+.quantity{
+  min-width:22px;
+  text-align:center;
+  font-weight:900;
+}
+
+.remove-item{
+  border:0;
+  background:none;
+  color:#777;
+  cursor:pointer;
+  font-size:.75rem;
+  margin-left:5px;
+}
+
+.cart-item-total{
+  font-weight:900;
+  white-space:nowrap;
+}
+
+.cart-footer{
+  padding:20px;
+  border-top:2px solid var(--black);
+  background:var(--white);
+}
+
+.cart-subtotal{
+  display:flex;
+  justify-content:space-between;
+  font-size:1.2rem;
+  font-weight:900;
+  margin-bottom:15px;
+}
+
+.checkout-button{
+  width:100%;
+  border:2px solid var(--black);
+  background:var(--black);
+  color:var(--yellow);
+  padding:15px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+.checkout-button:hover{
+  background:var(--yellow);
+  color:var(--black);
+}
+
+@media(max-width:900px){
+  nav.mobile-open .cart-button{
+    margin-top:10px;
+    width:100%;
+  }
+}
+
+@media(max-width:560px){
+  .product-bottom{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .add-cart{
+    width:100%;
+    padding:12px;
+  }
+}
   </style>
 </head>
 <body>
@@ -157,12 +400,53 @@
         <img class="brand-mark" src="snack7 (3).png" alt="Ashwini's Snack Party logo">
         <!-- <span>Ashwini's Snack Party</span> -->
       </a>
-      <nav aria-label="Main navigation">
+      <!-- <nav aria-label="Main navigation">
         <a href="#home">Home</a><a href="#products">Products</a><a href="#about">About</a><a href="#quality">Quality</a><a href="#contact" class="nav-cta">Contact</a>
       </nav>
       <button class="menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">Menu</button>
+      -->
+      <nav aria-label="Main navigation">
+  <a href="#home">Home</a>
+  <a href="#products">Products</a>
+  <a href="#about">About</a>
+  <a href="#quality">Quality</a>
+  <a href="#contact" class="nav-cta">Contact</a>
+  <button class="cart-button" onclick="openCart()">
+    🛒 Cart <span id="cart-count">0</span>
+  </button>
+</nav>
+
+<button class="menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">Menu</button>
+      <!--   shopping end  -->
     </div>
   </header>
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+
+<aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart">
+
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button>
+  </div>
+
+  <div class="cart-items" id="cart-items">
+    <div class="cart-empty">
+      Your cart is empty.
+    </div>
+  </div>
+
+  <div class="cart-footer">
+    <div class="cart-subtotal">
+      <span>Subtotal</span>
+      <span id="cart-subtotal">₹0</span>
+    </div>
+
+    <button class="checkout-button" onclick="startCheckout()">
+      Proceed to Checkout →
+    </button>
+  </div>
+
+</aside>
 
   <main>
     <section class="hero" id="home">
@@ -184,13 +468,82 @@
     <section class="products" id="products">
       <div class="container">
         <div class="section-head"><div><div class="kicker">Our speciality</div><h2>Pick your<br>crunch.</h2></div><p>A colourful lineup of familiar Indian favourites with the playful Ashwini's Snack Party personality.</p></div>
-        <div class="product-grid">
+       <!-- <div class="product-grid">
           <article class="card"><div class="card-top"><img src="rice-chakuli.jpg" alt="Rice Chakuli"></div><div class="card-body"><h3>Rice Chakuli</h3><p>Light, crisp &amp; seriously snackable.</p><div class="arrow">↗</div></div></article>
           <article class="card"><div class="card-top"><img src="jackfruit-chips.jpg" alt="Jackfruit Chips"></div><div class="card-body"><h3>Jackfruit Chips</h3><p>Golden, crispy &amp; naturally delicious.</p><div class="arrow">↗</div></div></article>
           <article class="card"><div class="card-top"><img src="potato-chips.jpg" alt="Potato Chips"></div><div class="card-body"><h3>Potato Chips</h3><p>Golden, crunchy slices for every mood.</p><div class="arrow">↗</div></div></article>
           <article class="card"><div class="card-top"><div class="chip-art" style="transform:scale(.82) rotate(-12deg)"></div></div><div class="card-body"><h3>Sev</h3><p>Fine, crisp strands made for munching.</p><div class="arrow">↗</div></div></article>
           <article class="card"><div class="card-top"><div class="chip-art" style="border-radius:45%;transform:scale(.9) rotate(25deg)"></div></div><div class="card-body"><h3>Potato Chips</h3><p>Golden, crunchy slices for every mood.</p><div class="arrow">↗</div></div></article>
         </div>
+        -->
+        <div class="product-grid">
+
+  <article class="card">
+    <div class="card-top">
+      <img src="rice-chakuli.jpg" alt="Rice Chakuli">
+    </div>
+    <div class="card-body">
+      <h3>Rice Chakuli</h3>
+      <p>Light, crisp &amp; seriously snackable.</p>
+      <div class="product-bottom">
+        <strong>₹65 <span>/ 200g</span></strong>
+        <button class="add-cart" onclick="addToCart('Rice Chakuli', 65)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-top">
+      <img src="jackfruit-chips.jpg" alt="Jackfruit Chips">
+    </div>
+    <div class="card-body">
+      <h3>Jackfruit Chips</h3>
+      <p>Golden, crispy &amp; naturally delicious.</p>
+      <div class="product-bottom">
+        <strong>₹65 <span>/ 200g</span></strong>
+        <button class="add-cart" onclick="addToCart('Jackfruit Chips', 65)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-top">
+      <img src="potato-chips.jpg" alt="Potato Chips">
+    </div>
+    <div class="card-body">
+      <h3>Potato Chips</h3>
+      <p>Golden, crunchy slices for every mood.</p>
+      <div class="product-bottom">
+        <strong>₹65 <span>/ 200g</span></strong>
+        <button class="add-cart" onclick="addToCart('Potato Chips', 65)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-top">
+      <div class="chip-art" style="transform:scale(.82) rotate(-12deg)"></div>
+    </div>
+    <div class="card-body">
+      <h3>Sev</h3>
+      <p>Fine, crisp strands made for munching.</p>
+      <div class="product-bottom">
+        <strong>₹65 <span>/ 200g</span></strong>
+        <button class="add-cart" onclick="addToCart('Sev', 65)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </article>
+
+</div>
+        <!--   product end -->
       </div>
     </section>
 
@@ -219,5 +572,158 @@
   </main>
 
   <footer><div class="container footer-inner"><strong>Ashwini's Snack Party</strong><small>© 2026 Ashwini's Snack Party. All rights reserved.</small></div></footer>
+  <script>
+let cart = JSON.parse(localStorage.getItem('ashwiniCart')) || [];
+
+function saveCart(){
+  localStorage.setItem('ashwiniCart', JSON.stringify(cart));
+}
+
+function addToCart(name, price){
+
+  const existing = cart.find(item => item.name === name);
+
+  if(existing){
+    existing.quantity++;
+  }else{
+    cart.push({
+      name:name,
+      price:price,
+      quantity:1
+    });
+  }
+
+  saveCart();
+  renderCart();
+  openCart();
+}
+
+function changeQuantity(name, change){
+
+  const item = cart.find(item => item.name === name);
+
+  if(!item) return;
+
+  item.quantity += change;
+
+  if(item.quantity <= 0){
+    cart = cart.filter(item => item.name !== name);
+  }
+
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(name){
+
+  cart = cart.filter(item => item.name !== name);
+
+  saveCart();
+  renderCart();
+}
+
+function renderCart(){
+
+  const cartItems = document.getElementById('cart-items');
+  const cartCount = document.getElementById('cart-count');
+  const cartSubtotal = document.getElementById('cart-subtotal');
+
+  const totalQuantity = cart.reduce(
+    (total,item) => total + item.quantity,
+    0
+  );
+
+  const subtotal = cart.reduce(
+    (total,item) => total + (item.price * item.quantity),
+    0
+  );
+
+  cartCount.textContent = totalQuantity;
+  cartSubtotal.textContent = '₹' + subtotal;
+
+  if(cart.length === 0){
+
+    cartItems.innerHTML = `
+      <div class="cart-empty">
+        Your cart is empty.
+      </div>
+    `;
+
+    return;
+  }
+
+  cartItems.innerHTML = cart.map(item => `
+    <div class="cart-item">
+
+      <div>
+        <h3>${item.name}</h3>
+
+        <div class="cart-item-price">
+          ₹${item.price} / 200g
+        </div>
+
+        <div class="cart-controls">
+
+          <button
+            class="quantity-button"
+            onclick="changeQuantity('${item.name}', -1)">
+            −
+          </button>
+
+          <span class="quantity">
+            ${item.quantity}
+          </span>
+
+          <button
+            class="quantity-button"
+            onclick="changeQuantity('${item.name}', 1)">
+            +
+          </button>
+
+          <button
+            class="remove-item"
+            onclick="removeFromCart('${item.name}')">
+            Remove
+          </button>
+
+        </div>
+      </div>
+
+      <div class="cart-item-total">
+        ₹${item.price * item.quantity}
+      </div>
+
+    </div>
+  `).join('');
+}
+
+function openCart(){
+
+  document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart(){
+
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+
+  document.body.style.overflow = '';
+}
+
+function startCheckout(){
+
+  if(cart.length === 0){
+    alert('Your cart is empty.');
+    return;
+  }
+
+  alert('Checkout will be connected in the next step.');
+}
+
+renderCart();
+</script>
 </body>
 </html>
