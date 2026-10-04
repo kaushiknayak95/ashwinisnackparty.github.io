@@ -570,6 +570,45 @@
   line-height:1.4;
 }
 
+    .coupon-section{
+  margin:18px 0;
+}
+
+.coupon-section label{
+  display:block;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.coupon-row{
+  display:flex;
+  gap:8px;
+}
+
+.coupon-row input{
+  flex:1;
+  padding:12px 14px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.coupon-row button{
+  padding:12px 18px;
+  border:0;
+  border-radius:10px;
+  background:var(--black);
+  color:var(--yellow);
+  font-weight:800;
+  cursor:pointer;
+}
+
+#coupon-message{
+  margin-top:8px;
+  font-size:14px;
+  font-weight:700;
+}
+
 @media(max-width:800px){
 
   .checkout-container{
@@ -936,6 +975,26 @@
 
         <div id="checkout-summary-items"></div>
 
+        <div class="coupon-section">
+  <label for="coupon-code">Coupon Code</label>
+
+  <div class="coupon-row">
+    <input
+      type="text"
+      id="coupon-code"
+      placeholder="Enter coupon code"
+      autocomplete="off"
+    >
+
+    <button type="button" onclick="applyCoupon()">
+      Apply
+    </button>
+  </div>
+
+  <div id="coupon-message"></div>
+</div>
+        
+
         <div class="checkout-summary-total">
         <span>Total</span>
         <strong id="checkout-total">₹0</strong>
@@ -1084,6 +1143,7 @@
   <script>
 let cart = JSON.parse(localStorage.getItem('ashwiniCart')) || [];
 
+    let couponCode = '';
 function saveCart(){
   localStorage.setItem('ashwiniCart', JSON.stringify(cart));
 }
@@ -1097,6 +1157,34 @@ function getProductPrice(button) {
 
   return Number(priceText.replace(/[^\d.]/g, ""));
 }
+
+function applyCoupon(){
+  const input = document.getElementById('coupon-code');
+  const message = document.getElementById('coupon-message');
+
+  const code = input.value.trim().toUpperCase();
+
+  if(code === 'TEST1RS'){
+    couponCode = code;
+
+    message.textContent = '✓ Coupon applied — total will be ₹1';
+    message.style.color = 'green';
+
+    const totalElement = document.getElementById('checkout-total');
+
+    if(totalElement){
+      totalElement.textContent = '₹1';
+    }
+
+    return;
+  }
+
+  couponCode = '';
+
+  message.textContent = 'Invalid coupon code';
+  message.style.color = 'red';
+}
+    
 
 function showOrderConfirmation(paymentResponse, completedCart, amountPaise) {  const customer = JSON.parse(
     localStorage.getItem('ashwiniCustomer') || '{}'
@@ -1437,9 +1525,10 @@ async function submitCheckout(event){
           'Content-Type': 'application/json'
         },
           body: JSON.stringify({
-          cart: cart,
-          customer: customer
-          })
+  cart: cart,
+  customer: customer,
+  coupon: couponCode
+})
       }
     );
 
