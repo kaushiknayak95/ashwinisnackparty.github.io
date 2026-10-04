@@ -838,68 +838,72 @@
         <div class="product-grid">
 
   <article class="card">
-    <div class="card-top">
-      <img src="rice-chakuli.jpg" alt="Rice Chakuli">
+  <div class="card-top">
+    <img src="rice-chakuli.jpg" alt="Rice Chakuli">
+  </div>
+  <div class="card-body">
+    <h3>Rice Chakuli</h3>
+    <p>Light, crisp &amp; seriously snackable.</p>
+    <div class="product-bottom">
+      <strong class="product-price">₹65 <span>/ 200g</span></strong>
+      <button class="add-cart"
+        onclick="addToCart('Rice Chakuli', getProductPrice(this))">
+        Add to Cart
+      </button>
     </div>
-    <div class="card-body">
-      <h3>Rice Chakuli</h3>
-      <p>Light, crisp &amp; seriously snackable.</p>
-      <div class="product-bottom">
-        <strong>₹65 <span>/ 200g</span></strong>
-        <button class="add-cart" onclick="addToCart('Rice Chakuli', 65)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
-  <article class="card">
-    <div class="card-top">
-      <img src="jackfruit-chips.jpg" alt="Jackfruit Chips">
+<article class="card">
+  <div class="card-top">
+    <img src="jackfruit-chips.jpg" alt="Jackfruit Chips">
+  </div>
+  <div class="card-body">
+    <h3>Jackfruit Chips</h3>
+    <p>Golden, crispy &amp; naturally delicious.</p>
+    <div class="product-bottom">
+      <strong class="product-price">₹180 <span>/ 200g</span></strong>
+      <button class="add-cart"
+        onclick="addToCart('Jackfruit Chips', getProductPrice(this))">
+        Add to Cart
+      </button>
     </div>
-    <div class="card-body">
-      <h3>Jackfruit Chips</h3>
-      <p>Golden, crispy &amp; naturally delicious.</p>
-      <div class="product-bottom">
-        <strong>₹180 <span>/ 200g</span></strong>
-        <button class="add-cart" onclick="addToCart('Jackfruit Chips', 65)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
-  <article class="card">
-    <div class="card-top">
-      <img src="potato-chips.jpg" alt="Potato Chips">
+<article class="card">
+  <div class="card-top">
+    <img src="potato-chips.jpg" alt="Potato Chips">
+  </div>
+  <div class="card-body">
+    <h3>Potato Chips</h3>
+    <p>Golden, crunchy slices for every mood.</p>
+    <div class="product-bottom">
+      <strong class="product-price">₹100 <span>/ 200g</span></strong>
+      <button class="add-cart"
+        onclick="addToCart('Potato Chips', getProductPrice(this))">
+        Add to Cart
+      </button>
     </div>
-    <div class="card-body">
-      <h3>Potato Chips</h3>
-      <p>Golden, crunchy slices for every mood.</p>
-      <div class="product-bottom">
-        <strong>₹100 <span>/ 200g</span></strong>
-        <button class="add-cart" onclick="addToCart('Potato Chips', 65)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
-  <article class="card">
-    <div class="card-top">
-      <div class="chip-art" style="transform:scale(.82) rotate(-12deg)"></div>
+<article class="card">
+  <div class="card-top">
+    <div class="chip-art" style="transform:scale(.82) rotate(-12deg)"></div>
+  </div>
+  <div class="card-body">
+    <h3>Sev</h3>
+    <p>Fine, crisp strands made for munching.</p>
+    <div class="product-bottom">
+      <strong class="product-price">₹65 <span>/ 200g</span></strong>
+      <button class="add-cart"
+        onclick="addToCart('Sev', getProductPrice(this))">
+        Add to Cart
+      </button>
     </div>
-    <div class="card-body">
-      <h3>Sev</h3>
-      <p>Fine, crisp strands made for munching.</p>
-      <div class="product-bottom">
-        <strong>₹65 <span>/ 200g</span></strong>
-        <button class="add-cart" onclick="addToCart('Sev', 65)">
-          Add to Cart
-        </button>
-      </div>
-    </div>
-  </article>
+  </div>
+</article>
 
 </div>
         <!--   product end -->
@@ -938,6 +942,16 @@ function saveCart(){
   localStorage.setItem('ashwiniCart', JSON.stringify(cart));
 }
 
+function getProductPrice(button) {
+  const priceText = button
+    .closest(".product-bottom")
+    .querySelector(".product-price")
+    .childNodes[0]
+    .textContent;
+
+  return Number(priceText.replace(/[^\d.]/g, ""));
+}
+    
 function addToCart(name, price){
 
   const existing = cart.find(item => item.name === name);
