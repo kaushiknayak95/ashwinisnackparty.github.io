@@ -1209,9 +1209,10 @@ async function submitCheckout(event){
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          cart: cart
-        })
+          body: JSON.stringify({
+          cart: cart,
+          customer: customer
+          })
       }
     );
 
