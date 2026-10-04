@@ -610,6 +610,7 @@
 }
     
   </style>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body>
   <div class="announcement">Big crunch. Bigger smiles &nbsp; • &nbsp; Made for snack lovers.</div>
@@ -1167,8 +1168,7 @@ function renderCheckout(){
 }
 
 
-function submitCheckout(event){
-
+async function submitCheckout(event){
   event.preventDefault();
 
   const form = document.getElementById('checkout-form');
@@ -1178,16 +1178,21 @@ function submitCheckout(event){
     return;
   }
 
+  if(cart.length === 0){
+    alert('Your cart is empty.');
+    return;
+  }
+
   const formData = new FormData(form);
 
   const customer = {
-    name:formData.get('name'),
-    phone:formData.get('phone'),
-    address:formData.get('address'),
-    area:formData.get('area'),
-    city:formData.get('city'),
-    state:formData.get('state'),
-    pincode:formData.get('pincode')
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+    address: formData.get('address'),
+    area: formData.get('area'),
+    city: formData.get('city'),
+    state: formData.get('state'),
+    pincode: formData.get('pincode')
   };
 
   localStorage.setItem(
@@ -1195,9 +1200,98 @@ function submitCheckout(event){
     JSON.stringify(customer)
   );
 
-  alert(
-    'Your delivery details are ready. Payment will be connected in the next step.'
-  );
+  try {
+
+    const response = await fetch(
+      'https://ashwini-snack-payment.kaushiknayak95.workers.dev/create-order',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          cart: cart
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      throw new Error(
+        data.error || 'Unable to create payment order'
+      );
+    }
+
+    const options = {
+      key: 'rzp_test_TjBQlOho2jN3eB',
+      amount: data.amount_paise,
+      currency: data.currency,
+      name: "Ashwini's Snack Party",
+      description: "Snack order",
+      order_id: data.order_id,
+
+      prefill: {
+        name: customer.name,
+        contact: customer.phone
+      },
+
+      handler: async function(paymentResponse){
+
+        const verifyResponse = await fetch(
+          'https://ashwini-snack-payment.kaushiknayak95.workers.dev/verify-payment',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(paymentResponse)
+          }
+        );
+
+        const verifyData = await verifyResponse.json();
+
+        if(!verifyResponse.ok || !verifyData.success){
+          alert(
+            'Payment verification failed. Please contact us.'
+          );
+          return;
+        }
+
+        alert(
+          'Payment successful! Your order has been received.'
+        );
+
+        cart = [];
+        saveCart();
+        renderCart();
+        closeCheckout();
+
+      },
+
+      modal: {
+        ondismiss: function(){
+          console.log('Razorpay checkout closed.');
+        }
+      },
+
+      theme: {
+        color: '#FDD204'
+      }
+    };
+
+    const razorpay = new Razorpay(options);
+
+    razorpay.open();
+
+  } catch(error) {
+
+    console.error(error);
+
+    alert(
+      'Unable to start payment. Please try again.'
+    );
+  }
 }
 
 renderCart();
