@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -666,6 +666,30 @@
   margin-bottom:22px;
 }
 
+.confirmation-items{
+  margin-bottom:10px;
+  padding-bottom:10px;
+  border-bottom:2px solid rgba(5,5,5,.2);
+}
+
+.confirmation-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:8px 0;
+  font-size:15px;
+}
+
+.confirmation-item span{
+  font-weight:600;
+}
+
+.confirmation-item strong{
+  white-space:nowrap;
+}
+    
+
 .confirmation-details div{
   display:flex;
   justify-content:space-between;
@@ -1072,12 +1096,20 @@ function getProductPrice(button) {
   return Number(priceText.replace(/[^\d.]/g, ""));
 }
 
-function showOrderConfirmation(paymentResponse) {
+function showOrderConfirmation(paymentResponse, completedCart) {
   const customer = JSON.parse(
     localStorage.getItem('ashwiniCustomer') || '{}'
   );
 
 const total = `₹${(paymentResponse.amount / 100).toFixed(2)}`;
+
+const orderItems = completedCart.map(item => `
+  <div class="confirmation-item">
+    <span>${item.name} × ${item.quantity}</span>
+    <strong>₹${item.price * item.quantity}</strong>
+  </div>
+`).join('');
+  
   const confirmation = document.createElement('div');
 
   confirmation.id = 'order-confirmation';
@@ -1093,6 +1125,11 @@ const total = `₹${(paymentResponse.amount / 100).toFixed(2)}`;
       </p>
 
       <div class="confirmation-details">
+
+       <div class="confirmation-items">
+        ${orderItems}
+        </div>
+      
         <div>
           <span>Payment ID</span>
           <strong>${paymentResponse.razorpay_payment_id}</strong>
@@ -1447,8 +1484,8 @@ async function submitCheckout(event){
           return;
         }
 
-       showOrderConfirmation(paymentResponse);
-
+const completedCart = [...cart];
+showOrderConfirmation(paymentResponse, completedCart);
 cart = [];
 saveCart();
 renderCart();
