@@ -608,6 +608,126 @@
   }
 
 }
+
+#order-confirmation{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:rgba(5,5,5,.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.confirmation-box{
+  width:100%;
+  max-width:480px;
+  background:var(--white);
+  border:4px solid var(--black);
+  border-radius:24px;
+  padding:36px 28px;
+  text-align:center;
+  box-shadow:10px 10px 0 var(--black);
+}
+
+.confirmation-icon{
+  width:70px;
+  height:70px;
+  margin:0 auto 18px;
+  border-radius:50%;
+  background:var(--yellow);
+  border:4px solid var(--black);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  font-weight:900;
+}
+
+.confirmation-box h2{
+  margin:0 0 10px;
+  font-size:30px;
+  line-height:1.1;
+}
+
+.confirmation-message{
+  margin:0 0 25px;
+  font-size:16px;
+  line-height:1.5;
+}
+
+.confirmation-details{
+  background:var(--cream);
+  border:2px solid var(--black);
+  border-radius:16px;
+  padding:16px;
+  text-align:left;
+  margin-bottom:22px;
+}
+
+.confirmation-details div{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(5,5,5,.2);
+}
+
+.confirmation-details div:last-child{
+  border-bottom:0;
+}
+
+.confirmation-details span{
+  font-weight:600;
+}
+
+.confirmation-details strong{
+  text-align:right;
+  word-break:break-word;
+}
+
+.confirmation-note{
+  font-size:14px;
+  line-height:1.5;
+  margin:0 0 24px;
+}
+
+.confirmation-home{
+  width:100%;
+  border:0;
+  border-radius:999px;
+  background:var(--black);
+  color:var(--yellow);
+  padding:14px 20px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.confirmation-home:hover{
+  transform:translateY(-1px);
+}
+
+@media(max-width:560px){
+  .confirmation-box{
+    padding:30px 20px;
+    box-shadow:6px 6px 0 var(--black);
+  }
+
+  .confirmation-box h2{
+    font-size:26px;
+  }
+
+  .confirmation-details div{
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .confirmation-details strong{
+    text-align:left;
+  }
+}
     
   </style>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -951,6 +1071,61 @@ function getProductPrice(button) {
 
   return Number(priceText.replace(/[^\d.]/g, ""));
 }
+
+function showOrderConfirmation(paymentResponse) {
+  const customer = JSON.parse(
+    localStorage.getItem('ashwiniCustomer') || '{}'
+  );
+
+  const total = document.querySelector('#cart-total')?.textContent || '';
+
+  const confirmation = document.createElement('div');
+
+  confirmation.id = 'order-confirmation';
+
+  confirmation.innerHTML = `
+    <div class="confirmation-box">
+      <div class="confirmation-icon">✓</div>
+
+      <h2>Order Placed Successfully!</h2>
+
+      <p class="confirmation-message">
+        Thank you for ordering from Ashwini's Snack Party.
+      </p>
+
+      <div class="confirmation-details">
+        <div>
+          <span>Payment ID</span>
+          <strong>${paymentResponse.razorpay_payment_id}</strong>
+        </div>
+
+        <div>
+          <span>Customer</span>
+          <strong>${customer.name || ''}</strong>
+        </div>
+
+        <div>
+          <span>Amount Paid</span>
+          <strong>${total}</strong>
+        </div>
+      </div>
+
+      <p class="confirmation-note">
+        Your order has been received and will be processed shortly.
+      </p>
+
+      <button
+        class="confirmation-home"
+        onclick="document.getElementById('order-confirmation').remove()"
+      >
+        Back to Home
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(confirmation);
+}
+
     
 function addToCart(name, price){
 
@@ -1273,15 +1448,12 @@ async function submitCheckout(event){
           return;
         }
 
-        alert(
-          'Payment successful! Your order has been received.'
-        );
+       showOrderConfirmation(paymentResponse);
 
-        cart = [];
-        saveCart();
-        renderCart();
-        closeCheckout();
-
+cart = [];
+saveCart();
+renderCart();
+closeCheckout();
       },
 
       modal: {
