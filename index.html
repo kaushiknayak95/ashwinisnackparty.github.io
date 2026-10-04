@@ -1077,8 +1077,7 @@ function showOrderConfirmation(paymentResponse) {
     localStorage.getItem('ashwiniCustomer') || '{}'
   );
 
-  const total = document.querySelector('#cart-total')?.textContent || '';
-
+const total = `₹${(paymentResponse.amount / 100).toFixed(2)}`;
   const confirmation = document.createElement('div');
 
   confirmation.id = 'order-confirmation';
