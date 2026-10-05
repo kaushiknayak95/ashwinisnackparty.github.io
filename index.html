@@ -849,6 +849,55 @@
   gap:14px;
 }
 
+    .delivery-estimate{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:20px 0;
+  padding:14px 16px;
+  border:2px solid var(--black);
+  border-radius:14px;
+  background:var(--cream);
+}
+
+.delivery-estimate-icon{
+  width:38px;
+  height:38px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--black);
+  font-size:1.1rem;
+}
+
+.delivery-estimate-content{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.delivery-estimate-content strong{
+  font-size:.9rem;
+  font-weight:900;
+}
+
+.delivery-estimate-content span{
+  font-size:.78rem;
+  line-height:1.4;
+  color:#555;
+}
+
+@media(max-width:560px){
+  .delivery-estimate{
+    padding:13px;
+  }
+
+  .delivery-estimate-content span{
+    font-size:.75rem;
+  }
+}
+
 .checkout-pay-button{
   width:100%;
   margin-top:8px;
@@ -1413,6 +1462,19 @@
               <option value="Telangana">Telangana</option>
               <option value="Other">Other</option>
             </select>
+                    </div>
+
+          <div class="delivery-estimate">
+
+            <div class="delivery-estimate-icon">
+              🚚
+            </div>
+
+            <div class="delivery-estimate-content">
+              <strong>Delivery estimate</strong>
+              <span>Expected delivery in 2–5 days after payment.</span>
+            </div>
+
           </div>
 
           <button class="checkout-pay-button" type="submit">
