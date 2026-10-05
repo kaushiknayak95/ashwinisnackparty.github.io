@@ -1,4 +1,4 @@
-  <!doctype html>
+ <!doctype html>
 <html lang="en">
 <head>
   <link rel="icon" type="image/png" href="favicon.png">
@@ -1857,20 +1857,19 @@ let cart = JSON.parse(
  * Make sure old cart items always
  * use the current product price.
  */
-cart = cart.map(item => {
-
-  if(PRODUCTS[item.name]){
-
-    return {
-      ...item,
-      price: PRODUCTS[item.name].price
-    };
-
-  }
-
-  return item;
-
-});
+cart = cart
+  .filter(item =>
+    item &&
+    PRODUCTS[item.name] &&
+    Number.isInteger(Number(item.quantity)) &&
+    Number(item.quantity) >= 1 &&
+    Number(item.quantity) <= 100
+  )
+  .map(item => ({
+    name: item.name,
+    price: PRODUCTS[item.name].price,
+    quantity: Number(item.quantity)
+  }));
 
 
 
@@ -1915,7 +1914,17 @@ function renderProductPrices(){
    renderProductPrices();
 
  
+function escapeHTML(value){
 
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+}
+    
 function showOrderConfirmation(paymentResponse, completedCart, amountPaise) {  const customer = JSON.parse(
     localStorage.getItem('ashwiniCustomer') || '{}'
   );
@@ -1925,8 +1934,7 @@ const total = `₹${(amountPaise / 100).toFixed(2)}`;
                                                                              
 const orderItems = completedCart.map(item => `
   <div class="confirmation-item">
-    <span>${item.name} × ${item.quantity}</span>
-    <strong>₹${item.price * item.quantity}</strong>
+<span>${escapeHTML(item.name)} × ${escapeHTML(item.quantity)}</span>    <strong>₹${item.price * item.quantity}</strong>
   </div>
 `).join('');
   
@@ -1952,13 +1960,13 @@ const orderItems = completedCart.map(item => `
       
         <div>
           <span>Payment ID</span>
-          <strong>${paymentResponse.razorpay_payment_id}</strong>
-        </div>
+      <strong>${escapeHTML(paymentResponse.razorpay_payment_id)}</strong>
+      </div>
 
         <div>
           <span>Customer</span>
-          <strong>${customer.name || ''}</strong>
-        </div>
+      <strong>${escapeHTML(customer.name || '')}</strong>       
+      </div>
 
         <div>
           <span>Amount Paid</span>
@@ -2218,7 +2226,7 @@ function renderCart(){
 
           ${
             image
-              ? `<img src="${image}" alt="${item.name}">`
+              ? `<img src="${image}" alt="${escapeHTML(item.name)}">`
               : `<div
                   class="chip-art"
                   style="width:48px;height:48px;transform:scale(.7) rotate(-12deg)">
@@ -2230,7 +2238,7 @@ function renderCart(){
 
         <div>
 
-          <h3>${item.name}</h3>
+          <h3>${escapeHTML(item.name)}</h3>
 
           <div class="cart-item-price">
             ₹${item.price} / 200g
@@ -2240,23 +2248,23 @@ function renderCart(){
 
             <button
               class="quantity-button"
-              onclick="changeQuantity('${item.name}', -1)">
+              onclick="changeQuantity(${JSON.stringify(item.name)}, -1)">
               −
             </button>
 
             <span class="quantity">
-              ${item.quantity}
+              ${escapeHTML(item.quantity)}
             </span>
 
             <button
               class="quantity-button"
-              onclick="changeQuantity('${item.name}', 1)">
+              onclick="changeQuantity(${JSON.stringify(item.name)}, 1)">
               +
             </button>
 
             <button
               class="remove-item"
-              onclick="removeFromCart('${item.name}')">
+              onclick="removeFromCart(${JSON.stringify(item.name)})">
               Remove
             </button>
 
@@ -2347,12 +2355,12 @@ function renderCheckout(){
     return `
       <div class="checkout-summary-item">
         <div>
-          <div class="checkout-summary-item-name">${item.name}</div>
-          <div class="checkout-summary-item-details">
-            ${item.quantity} × 200g × ₹${item.price}
+            <div class="checkout-summary-item-name">${escapeHTML(item.name)}</div>
+            <div class="checkout-summary-item-details">
+            ${escapeHTML(item.quantity)} × 200g × ₹${escapeHTML(item.price)}
           </div>
         </div>
-        <div class="checkout-summary-item-price">₹${itemTotal}</div>
+        <div class="checkout-summary-item-price">₹${escapeHTML(itemTotal)}</div>
       </div>
     `;
   }).join('');
