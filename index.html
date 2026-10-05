@@ -1072,75 +1072,7 @@
   line-height:1.4;
 }
 
-    .coupon-section{
-  margin:18px 0;
-}
-
-.coupon-section label{
-  display:block;
-  font-weight:800;
-  margin-bottom:8px;
-}
-
-.coupon-row{
-  display:flex;
-  gap:8px;
-}
-
-.coupon-input-wrap{
-  position:relative;
-  flex:1;
-}
-
-.coupon-input-wrap input{
-  width:100%;
-  padding:12px 40px 12px 14px;
-  border:1px solid #ccc;
-  border-radius:10px;
-  font-size:15px;
-  box-sizing:border-box;
-}
-
-.coupon-row > button{
-  padding:12px 18px;
-  border:0;
-  border-radius:10px;
-  background:var(--black);
-  color:var(--yellow);
-  font-weight:800;
-  cursor:pointer;
-}
-
-.coupon-remove{
-  display:none;
-  position:absolute;
-  right:8px;
-  top:50%;
-  transform:translateY(-50%);
-  width:26px;
-  height:26px;
-  padding:0;
-  border:0;
-  border-radius:50%;
-  background:#eee;
-  color:#111;
-  font-size:20px;
-  line-height:26px;
-  font-weight:700;
-  cursor:pointer;
-}
-
-#coupon-message{
-  margin-top:8px;
-  font-size:14px;
-  font-weight:700;
-}
-
-#coupon-message{
-  margin-top:8px;
-  font-size:14px;
-  font-weight:700;
-}
+  
 
 @media(max-width:800px){
 
@@ -1596,37 +1528,7 @@
 
         <div id="checkout-summary-items"></div>
 
-       <div class="coupon-section">
-  <label for="coupon-code">Coupon Code</label>
-
-  <div class="coupon-row">
-
-    <div class="coupon-input-wrap">
-      <input
-        type="text"
-        id="coupon-code"
-        placeholder="Enter coupon code"
-        autocomplete="off"
-      >
-
-      <button
-        type="button"
-        class="coupon-remove"
-        onclick="removeCoupon()"
-        aria-label="Remove coupon"
-        title="Remove coupon"
-      >×</button>
-    </div>
-
-    <button type="button" onclick="applyCoupon()">
-      Apply
-    </button>
-
-  </div>
-
-  <div id="coupon-message"></div>
-</div>
-        
+          
 
         <div class="checkout-summary-total">
         <span>Total</span>
@@ -1971,7 +1873,6 @@ cart = cart.map(item => {
 });
 
 
-let couponCode = '';
 
 
 function saveCart(){
@@ -2013,65 +1914,7 @@ function renderProductPrices(){
 
    renderProductPrices();
 
-
-
-function applyCoupon(){
-  const input = document.getElementById('coupon-code');
-  const message = document.getElementById('coupon-message');
-
-  const code = input.value.trim().toUpperCase();
-
-  if(code === 'TEST1RS'){
-    couponCode = code;
-    document.querySelector('.coupon-remove').style.display = 'block';
-    message.textContent = '✓ Coupon applied — total will be ₹1';
-    message.style.color = 'green';
-
-    const totalElement = document.getElementById('checkout-total');
-
-    if(totalElement){
-      totalElement.textContent = '₹1';
-    }
-
-    return;
-  }
-
-  couponCode = '';
-
-  message.textContent = 'Invalid coupon code';
-  message.style.color = 'red';
-}
-
-
-    function resetCoupon(){
-
-  couponCode = '';
-
-  const input = document.getElementById('coupon-code');
-  const message = document.getElementById('coupon-message');
-  const removeButton = document.querySelector('.coupon-remove');
-
-  if(input){
-    input.value = '';
-  }
-
-  if(message){
-    message.textContent = '';
-  }
-
-  if(removeButton){
-    removeButton.style.display = 'none';
-  }
-
-}
-
-function removeCoupon(){
-
-  resetCoupon();
-  renderCheckout();
-
-}
-    
+ 
 
 function showOrderConfirmation(paymentResponse, completedCart, amountPaise) {  const customer = JSON.parse(
     localStorage.getItem('ashwiniCustomer') || '{}'
@@ -2455,6 +2298,14 @@ function openCheckout(){
     return;
   }
 
+  const form = document.getElementById('checkout-form');
+
+  if(form){
+    form.reset();
+  }
+
+  localStorage.removeItem('ashwiniCustomer');
+
   renderCheckout();
 
   closeCart();
@@ -2585,10 +2436,9 @@ async function submitCheckout(event){
         headers: {
           'Content-Type': 'application/json'
         },
-          body: JSON.stringify({
+         body: JSON.stringify({
   cart: cart,
-  customer: customer,
-  coupon: couponCode
+  customer: customer
 })
       }
     );
@@ -2645,8 +2495,6 @@ showOrderConfirmation(
 );
 
 cart = [];
-
-resetCoupon();
 
 saveCart();
 renderCart();
