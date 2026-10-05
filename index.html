@@ -205,7 +205,82 @@
   display:flex;
   flex-direction:column;
   align-items:flex-start;
+  gap:10px;
+  margin-top:12px;
+}
+
+.card .product-bottom strong.product-price{
+  margin:0;
+  font-size:1.35rem;
+  font-weight:900;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+.card .product-bottom strong.product-price span{
+  font-size:1rem;
+  color:var(--black);
+  font-weight:900;
+}
+
+.card .product-cart-actions{
+  display:flex;
+  align-items:center;
   gap:8px;
+  width:100%;
+}
+
+.card .product-quantity{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:2px solid var(--black);
+  border-radius:999px;
+  overflow:hidden;
+  background:var(--white);
+  height:40px;
+  flex-shrink:0;
+}
+
+.card .product-quantity button{
+  width:34px;
+  height:40px;
+  padding:0;
+  border:0;
+  background:transparent;
+  color:var(--black);
+  font-size:1.15rem;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.card .product-quantity button:hover{
+  background:var(--yellow);
+}
+
+.card .product-quantity span{
+  min-width:28px;
+  text-align:center;
+  font-size:1rem;
+  font-weight:900;
+}
+
+.card .product-cart-actions .add-cart{
+  flex:1;
+  min-height:40px;
+  padding:9px 14px;
+  border:2px solid var(--black);
+  border-radius:999px;
+  background:var(--black);
+  color:var(--yellow);
+  font-size:.8rem;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.card .product-cart-actions .add-cart:hover{
+  background:var(--yellow);
+  color:var(--black);
 }
 
 .card .product-price{
