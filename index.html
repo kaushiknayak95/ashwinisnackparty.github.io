@@ -821,19 +821,46 @@
 }
 
 .confirmation-items{
-  display:block;
   margin-bottom:10px;
   padding-bottom:10px;
   border-bottom:2px solid rgba(5,5,5,.2);
+
+  max-height:220px;
+  overflow-y:auto;
+  padding-right:6px;
+}
+
+    .confirmation-items::-webkit-scrollbar{
+  width:5px;
+}
+
+.confirmation-items::-webkit-scrollbar-thumb{
+  background:rgba(5,5,5,.25);
+  border-radius:999px;
 }
 
 .confirmation-item{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
-  padding:8px 0;
+  gap:12px;
+  padding:7px 0;
   font-size:15px;
+  line-height:1.3;
+}
+
+.confirmation-item span{
+  font-weight:600;
+  min-width:0;
+  flex:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.confirmation-item strong{
+  white-space:nowrap;
+  flex-shrink:0;
 }
 
 .confirmation-item span{
@@ -889,6 +916,7 @@
 }
 
 @media(max-width:560px){
+
   .confirmation-box{
     padding:30px 20px;
     box-shadow:6px 6px 0 var(--black);
@@ -898,12 +926,22 @@
     font-size:26px;
   }
 
-  .confirmation-details div{
+  .confirmation-items{
+    max-height:260px;
+  }
+
+  .confirmation-item{
+    gap:10px;
+    padding:7px 0;
+    font-size:14px;
+  }
+
+  .confirmation-details > div:not(.confirmation-items){
     flex-direction:column;
     gap:4px;
   }
 
-  .confirmation-details strong{
+  .confirmation-details > div:not(.confirmation-items) strong{
     text-align:left;
   }
 }
