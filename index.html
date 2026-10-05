@@ -185,6 +185,72 @@
     textarea{min-height:130px;resize:vertical}
     footer{background:var(--black);color:#fff;padding:35px 0}
     .footer-inner{display:flex;justify-content:space-between;gap:20px;align-items:center}
+    .footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px 20px;
+}
+
+.footer-links a{
+  color:#aaa;
+  font-size:.8rem;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.footer-links a:hover{
+  color:var(--yellow);
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+@media(max-width:560px){
+
+  .footer-links{
+    margin-top:18px;
+    justify-content:flex-start;
+    gap:10px 16px;
+  }
+
+  .footer-links a{
+    font-size:.75rem;
+  }
+
+}
+    .footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px 20px;
+}
+
+.footer-links a{
+  color:#aaa;
+  font-size:.8rem;
+  font-weight:700;
+  transition:.2s ease;
+}
+
+.footer-links a:hover{
+  color:var(--yellow);
+  text-decoration:underline;
+  text-underline-offset:4px;
+}
+
+@media(max-width:560px){
+
+  .footer-links{
+    margin-top:18px;
+    justify-content:flex-start;
+    gap:10px 16px;
+  }
+
+  .footer-links a{
+    font-size:.75rem;
+  }
+
+}
     .footer-inner strong{color:var(--yellow);font-size:1.1rem}
     .footer-inner small{color:#aaa}
 
@@ -1836,7 +1902,24 @@
     </section>
   </main>
 
-  <footer><div class="container footer-inner"><strong>Ashwini's Snack Party</strong><small>© 2026 Ashwini's Snack Party. All rights reserved.</small></div></footer>
+<footer>
+  <div class="container footer-inner">
+
+    <div>
+      <strong>Ashwini's Snack Party</strong>
+      <small>© 2026 Ashwini's Snack Party. All rights reserved.</small>
+    </div>
+
+    <div class="footer-links">
+      <a href="shipping.html">Shipping &amp; Returns</a>
+      <a href="terms.html">Terms &amp; Policies</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="refund.html">Refund Policy</a>
+    </div>
+
+  </div>
+</footer>
+  
   <script>
 const PRODUCTS = {
 
