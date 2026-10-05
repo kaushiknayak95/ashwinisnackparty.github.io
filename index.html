@@ -91,6 +91,9 @@
 @media(max-width:900px){
   .nav-actions{
     display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
   }
 }
 
@@ -230,11 +233,17 @@
   border:0;
   background:var(--black);
   color:var(--yellow);
-  padding:11px 16px;
+  padding:10px 13px;
   border-radius:999px;
   font-weight:900;
   cursor:pointer;
   white-space:nowrap;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  height:48px;
+  min-width:58px;
 }
 
 #cart-count{
@@ -1090,12 +1099,14 @@
   </nav>
 
 <div class="nav-actions">
-  <button class="cart-button" onclick="openCart()">
-    🛒 Cart <span id="cart-count">0</span>
-  </button>
+  
 
   <button class="menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">
     Menu
+  </button>
+
+  <button class="cart-button" onclick="openCart()">
+    🛒 Cart <span id="cart-count">0</span>
   </button>
 </div>
       <!--   shopping end  -->
