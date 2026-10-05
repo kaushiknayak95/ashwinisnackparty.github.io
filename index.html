@@ -2092,11 +2092,13 @@ function changeQuantity(name, change){
 
   if(!item) return;
 
-  const newQuantity = item.quantity + change;
-
-  if(newQuantity > 20){
+  /* Block only increases above 20.
+     Decrease must still work if an old cart has >20. */
+  if(change > 0 && item.quantity >= 20){
     return;
   }
+
+  const newQuantity = item.quantity + change;
 
   if(newQuantity <= 0){
     cart = cart.filter(item => item.name !== name);
