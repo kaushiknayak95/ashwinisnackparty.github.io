@@ -245,6 +245,26 @@
   height:48px;
   min-width:58px;
 }
+    .cart-button svg{
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:var(--yellow);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+@media(max-width:900px){
+  .nav-actions .menu,
+  .nav-actions .cart-button{
+    height:48px;
+  }
+
+  .nav-actions .menu{
+    padding:10px 16px;
+  }
+}
 
 #cart-count{
   display:inline-grid;
@@ -1105,8 +1125,13 @@
     Menu
   </button>
 
-  <button class="cart-button" onclick="openCart()">
-  🛒 <span id="cart-count">0</span>
+  <button class="cart-button" onclick="openCart()" aria-label="Shopping cart">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 7H6"/>
+    <circle cx="10" cy="20" r="1.5"/>
+    <circle cx="18" cy="20" r="1.5"/>
+  </svg>
+  <span id="cart-count">0</span>
 </button>
 </div>
       <!--   shopping end  -->
