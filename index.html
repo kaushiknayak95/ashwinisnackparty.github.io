@@ -599,6 +599,100 @@
   white-space:nowrap;
 }
 
+/* FREE SHIPPING PROGRESS */
+
+.shipping-progress{
+  margin-bottom:18px;
+  padding:14px 15px;
+  border:2px solid var(--black);
+  border-radius:16px;
+  background:var(--cream);
+}
+
+.shipping-progress-top{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.shipping-progress-icon{
+  width:30px;
+  height:30px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:var(--black);
+  color:var(--yellow);
+  font-size:.9rem;
+}
+
+.shipping-progress-text{
+  flex:1;
+  font-size:.82rem;
+  line-height:1.35;
+  font-weight:700;
+}
+
+.shipping-progress-text strong{
+  font-weight:900;
+}
+
+.shipping-progress-bar{
+  height:9px;
+  width:100%;
+  background:rgba(5,5,5,.12);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.shipping-progress-fill{
+  height:100%;
+  width:0%;
+  background:var(--yellow);
+  border-radius:999px;
+  transition:width:.35s ease;
+}
+
+.shipping-progress-bottom{
+  display:flex;
+  justify-content:space-between;
+  margin-top:7px;
+  font-size:.7rem;
+  font-weight:900;
+}
+
+.shipping-progress-bottom span:last-child{
+  opacity:.55;
+}
+
+.shipping-progress.unlocked{
+  background:var(--yellow);
+}
+
+.shipping-progress.unlocked .shipping-progress-fill{
+  background:var(--black);
+}
+
+.shipping-progress.unlocked .shipping-progress-icon{
+  background:var(--yellow);
+  color:var(--black);
+  border:1px solid var(--black);
+}
+
+@media(max-width:560px){
+
+  .shipping-progress{
+    padding:13px;
+  }
+
+  .shipping-progress-text{
+    font-size:.78rem;
+  }
+
+}
+    
 .cart-footer{
   padding:20px;
   border-top:2px solid var(--black);
@@ -1175,10 +1269,44 @@
 
 <div class="cart-footer">
 
-  <div class="cart-shipping-note">
-    Free shipping above ₹800
+  <div class="shipping-progress" id="shipping-progress">
+
+    <div class="shipping-progress-top">
+
+      <div class="shipping-progress-icon" id="shipping-progress-icon">
+        🚚
+      </div>
+
+      <div class="shipping-progress-text" id="shipping-progress-text">
+        Add more snacks to unlock <strong>FREE shipping</strong>.
+      </div>
+
+    </div>
+
+    <div class="shipping-progress-bar">
+      <div
+        class="shipping-progress-fill"
+        id="shipping-progress-fill">
+      </div>
+    </div>
+
+    <div class="shipping-progress-bottom">
+      <span id="shipping-progress-current">₹0</span>
+      <span>₹800</span>
+    </div>
+
   </div>
 
+  <div class="cart-subtotal">
+    <span>Subtotal</span>
+    <strong id="cart-subtotal">₹0</strong>
+  </div>
+
+  <button class="checkout-button" onclick="openCheckout()">
+    Proceed to Checkout →
+  </button>
+
+</div>
   <div class="cart-subtotal">
     <span>Subtotal</span>
     <strong id="cart-subtotal">₹0</strong>
@@ -1951,8 +2079,23 @@ function removeFromCart(name){
 function renderCart(){
 
   const cartItems = document.getElementById('cart-items');
-  const cartCount = document.getElementById('cart-count');
-  const cartSubtotal = document.getElementById('cart-subtotal');
+const cartCount = document.getElementById('cart-count');
+const cartSubtotal = document.getElementById('cart-subtotal');
+
+const shippingProgress =
+  document.getElementById('shipping-progress');
+
+const shippingProgressFill =
+  document.getElementById('shipping-progress-fill');
+
+const shippingProgressText =
+  document.getElementById('shipping-progress-text');
+
+const shippingProgressCurrent =
+  document.getElementById('shipping-progress-current');
+
+const shippingProgressIcon =
+  document.getElementById('shipping-progress-icon');
 
   const totalQuantity = cart.reduce(
     (total,item) => total + item.quantity,
@@ -1966,6 +2109,59 @@ function renderCart(){
 
   cartCount.textContent = totalQuantity;
   cartSubtotal.textContent = '₹' + subtotal;
+
+  /* Update free-shipping progress */
+
+const FREE_SHIPPING_LIMIT = 800;
+
+const progress =
+  Math.min(
+    (subtotal / FREE_SHIPPING_LIMIT) * 100,
+    100
+  );
+
+if(shippingProgressFill){
+  shippingProgressFill.style.width = progress + '%';
+}
+
+if(shippingProgressCurrent){
+  shippingProgressCurrent.textContent =
+    '₹' + subtotal;
+}
+
+if(subtotal >= FREE_SHIPPING_LIMIT){
+
+  if(shippingProgress){
+    shippingProgress.classList.add('unlocked');
+  }
+
+  if(shippingProgressText){
+    shippingProgressText.innerHTML =
+      '🎉 <strong>FREE shipping unlocked!</strong> Your order qualifies.';
+  }
+
+  if(shippingProgressIcon){
+    shippingProgressIcon.textContent = '✓';
+  }
+
+}else{
+
+  if(shippingProgress){
+    shippingProgress.classList.remove('unlocked');
+  }
+
+  if(shippingProgressText){
+    shippingProgressText.innerHTML =
+      'Add <strong>₹' +
+      (FREE_SHIPPING_LIMIT - subtotal) +
+      '</strong> more to unlock <strong>FREE shipping</strong>.';
+  }
+
+  if(shippingProgressIcon){
+    shippingProgressIcon.textContent = '🚚';
+  }
+
+}
 
   if(cart.length === 0){
 
