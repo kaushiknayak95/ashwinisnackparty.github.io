@@ -1744,18 +1744,33 @@ function applyCoupon(){
 }
 
 
-    function removeCoupon(){
+    function resetCoupon(){
+
   couponCode = '';
 
   const input = document.getElementById('coupon-code');
   const message = document.getElementById('coupon-message');
   const removeButton = document.querySelector('.coupon-remove');
 
-  input.value = '';
-  message.textContent = '';
-  removeButton.style.display = 'none';
+  if(input){
+    input.value = '';
+  }
 
+  if(message){
+    message.textContent = '';
+  }
+
+  if(removeButton){
+    removeButton.style.display = 'none';
+  }
+
+}
+
+function removeCoupon(){
+
+  resetCoupon();
   renderCheckout();
+
 }
     
 
@@ -2221,7 +2236,8 @@ showOrderConfirmation(
 );
 
 cart = [];
-couponCode = '';
+
+resetCoupon();
 
 saveCart();
 renderCart();
