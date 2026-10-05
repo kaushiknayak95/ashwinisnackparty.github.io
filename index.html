@@ -2248,7 +2248,7 @@ function renderCart(){
 
             <button
               class="quantity-button"
-              onclick="changeQuantity(${JSON.stringify(item.name)}, -1)">
+              onclick="changeQuantity(atob('${btoa(item.name)}'), -1)">
               −
             </button>
 
@@ -2258,13 +2258,13 @@ function renderCart(){
 
             <button
               class="quantity-button"
-              onclick="changeQuantity(${JSON.stringify(item.name)}, 1)">
+             onclick="changeQuantity(atob('${btoa(item.name)}'), 1)">
               +
             </button>
 
             <button
               class="remove-item"
-              onclick="removeFromCart(${JSON.stringify(item.name)})">
+              onclick="removeFromCart(atob('${btoa(item.name)}'))">
               Remove
             </button>
 
