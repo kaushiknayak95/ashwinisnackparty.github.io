@@ -1389,10 +1389,9 @@
 
   <button class="checkout-button" onclick="openCheckout()">
     Proceed to Checkout →
-  </button>
+   </button>
 
-
-</aside>
+</div>
 
 </aside>
   <div class="checkout-screen" id="checkout-screen">
@@ -2168,89 +2167,97 @@ function removeFromCart(name){
 function renderCart(){
 
   const cartItems = document.getElementById('cart-items');
-const cartCount = document.getElementById('cart-count');
-const cartSubtotal = document.getElementById('cart-subtotal');
+  const cartCount = document.getElementById('cart-count');
+  const cartSubtotal = document.getElementById('cart-subtotal');
 
-const shippingProgress =
-  document.getElementById('shipping-progress');
+  const shippingProgress =
+    document.getElementById('shipping-progress');
 
-const shippingProgressFill =
-  document.getElementById('shipping-progress-fill');
+  const shippingProgressFill =
+    document.getElementById('shipping-progress-fill');
 
-const shippingProgressText =
-  document.getElementById('shipping-progress-text');
+  const shippingProgressText =
+    document.getElementById('shipping-progress-text');
 
-const shippingProgressCurrent =
-  document.getElementById('shipping-progress-current');
+  const shippingProgressCurrent =
+    document.getElementById('shipping-progress-current');
 
-const shippingProgressIcon =
-  document.getElementById('shipping-progress-icon');
+  const shippingProgressIcon =
+    document.getElementById('shipping-progress-icon');
+
 
   const totalQuantity = cart.reduce(
-    (total,item) => total + item.quantity,
+    (total, item) => total + item.quantity,
     0
   );
 
   const subtotal = cart.reduce(
-    (total,item) => total + (item.price * item.quantity),
+    (total, item) => total + (item.price * item.quantity),
     0
   );
+
 
   cartCount.textContent = totalQuantity;
   cartSubtotal.textContent = '₹' + subtotal;
 
-  /* Update free-shipping progress */
 
-const FREE_SHIPPING_LIMIT = 800;
+  /* FREE SHIPPING PROGRESS */
 
-const progress =
-  Math.min(
-    (subtotal / FREE_SHIPPING_LIMIT) * 100,
-    100
-  );
+  const FREE_SHIPPING_LIMIT = 800;
 
-if(shippingProgressFill){
-  shippingProgressFill.style.width = progress + '%';
-}
+  const progress =
+    Math.min(
+      (subtotal / FREE_SHIPPING_LIMIT) * 100,
+      100
+    );
 
-if(shippingProgressCurrent){
-  shippingProgressCurrent.textContent =
-    '₹' + subtotal;
-}
-
-if(subtotal >= FREE_SHIPPING_LIMIT){
-
-  if(shippingProgress){
-    shippingProgress.classList.add('unlocked');
+  if(shippingProgressFill){
+    shippingProgressFill.style.width =
+      progress + '%';
   }
 
-  if(shippingProgressText){
-    shippingProgressText.innerHTML =
-      '🎉 <strong>FREE shipping unlocked!</strong> Your order qualifies.';
+  if(shippingProgressCurrent){
+    shippingProgressCurrent.textContent =
+      '₹' + subtotal;
   }
 
-  if(shippingProgressIcon){
-    shippingProgressIcon.textContent = '✓';
+
+  if(subtotal >= FREE_SHIPPING_LIMIT){
+
+    if(shippingProgress){
+      shippingProgress.classList.add('unlocked');
+    }
+
+    if(shippingProgressText){
+      shippingProgressText.innerHTML =
+        '🎉 <strong>FREE shipping unlocked!</strong> Your order qualifies.';
+    }
+
+    if(shippingProgressIcon){
+      shippingProgressIcon.textContent = '✓';
+    }
+
+  }else{
+
+    if(shippingProgress){
+      shippingProgress.classList.remove('unlocked');
+    }
+
+    if(shippingProgressText){
+      shippingProgressText.innerHTML =
+        'Add <strong>₹' +
+        (FREE_SHIPPING_LIMIT - subtotal) +
+        '</strong> more to unlock <strong>FREE shipping</strong>.';
+    }
+
+    if(shippingProgressIcon){
+      shippingProgressIcon.textContent = '🚚';
+    }
+
   }
 
-}else{
 
-  if(shippingProgress){
-    shippingProgress.classList.remove('unlocked');
-  }
-
-  if(shippingProgressText){
-    shippingProgressText.innerHTML =
-      'Add <strong>₹' +
-      (FREE_SHIPPING_LIMIT - subtotal) +
-      '</strong> more to unlock <strong>FREE shipping</strong>.';
-  }
-
-  if(shippingProgressIcon){
-    shippingProgressIcon.textContent = '🚚';
-  }
-
-}
+  /* EMPTY CART */
 
   if(cart.length === 0){
 
@@ -2263,7 +2270,8 @@ if(subtotal >= FREE_SHIPPING_LIMIT){
     return;
   }
 
- cartItems.innerHTML = cart.map(item => {
+
+  /* CART ITEMS WITH PRODUCT IMAGES */
 
   const productImages = {
     "Rice Chakuli": "rice-chakuli.jpg",
@@ -2272,96 +2280,75 @@ if(subtotal >= FREE_SHIPPING_LIMIT){
     "Sev": null
   };
 
-  const image = productImages[item.name];
 
-  return `
-    <div class="cart-item">
+  cartItems.innerHTML = cart.map(item => {
 
-      <div class="cart-item-image">
-        ${
-          image
-            ? `<img src="${image}" alt="${item.name}">`
-            : `<div class="chip-art" style="width:48px;height:48px;transform:scale(.7) rotate(-12deg)"></div>`
-        }
-      </div>
+    const image = productImages[item.name];
 
-      <div>
+    return `
+      <div class="cart-item">
 
-        <h3>${item.name}</h3>
+        <div class="cart-item-image">
 
-        <div class="cart-item-price">
-          ₹${item.price} / 200g
-        </div>
-
-        <div class="cart-controls">
-
-          <button
-            class="quantity-button"
-            onclick="changeQuantity('${item.name}', -1)">
-            −
-          </button>
-
-          <span class="quantity">
-            ${item.quantity}
-          </span>
-
-          <button
-            class="quantity-button"
-            onclick="changeQuantity('${item.name}', 1)">
-            +
-          </button>
-
-          <button
-            class="remove-item"
-            onclick="removeFromCart('${item.name}')">
-            Remove
-          </button>
+          ${
+            image
+              ? `<img src="${image}" alt="${item.name}">`
+              : `<div
+                  class="chip-art"
+                  style="width:48px;height:48px;transform:scale(.7) rotate(-12deg)">
+                </div>`
+          }
 
         </div>
 
-      </div>
 
-      <div class="cart-item-total">
-        ₹${item.price * item.quantity}
-      </div>
+        <div>
 
-    </div>
-  `;
-}).join('');
+          <h3>${item.name}</h3>
 
-          <button
-            class="quantity-button"
-            onclick="changeQuantity('${item.name}', -1)">
-            −
-          </button>
+          <div class="cart-item-price">
+            ₹${item.price} / 200g
+          </div>
 
-          <span class="quantity">
-            ${item.quantity}
-          </span>
+          <div class="cart-controls">
 
-          <button
-            class="quantity-button"
-            onclick="changeQuantity('${item.name}', 1)">
-            +
-          </button>
+            <button
+              class="quantity-button"
+              onclick="changeQuantity('${item.name}', -1)">
+              −
+            </button>
 
-          <button
-            class="remove-item"
-            onclick="removeFromCart('${item.name}')">
-            Remove
-          </button>
+            <span class="quantity">
+              ${item.quantity}
+            </span>
+
+            <button
+              class="quantity-button"
+              onclick="changeQuantity('${item.name}', 1)">
+              +
+            </button>
+
+            <button
+              class="remove-item"
+              onclick="removeFromCart('${item.name}')">
+              Remove
+            </button>
+
+          </div>
 
         </div>
-      </div>
 
-      <div class="cart-item-total">
-        ₹${item.price * item.quantity}
-      </div>
 
-    </div>
-  `).join('');
+        <div class="cart-item-total">
+          ₹${item.price * item.quantity}
+        </div>
+
+      </div>
+    `;
+
+  }).join('');
+
 }
-
 function openCart(){
 
   document.getElementById('cart-drawer').classList.add('open');
