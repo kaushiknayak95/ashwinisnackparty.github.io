@@ -232,6 +232,60 @@
   transition:.2s ease;
 }
 
+    .product-cart-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.product-quantity{
+  display:flex;
+  align-items:center;
+  border:2px solid var(--black);
+  border-radius:999px;
+  overflow:hidden;
+  background:var(--white);
+  height:38px;
+}
+
+.product-quantity button{
+  width:32px;
+  height:100%;
+  border:0;
+  background:transparent;
+  color:var(--black);
+  font-size:1.1rem;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.product-quantity button:hover{
+  background:var(--yellow);
+}
+
+.product-quantity span{
+  min-width:25px;
+  text-align:center;
+  font-weight:900;
+}
+
+@media(max-width:560px){
+
+  .product-bottom{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .product-cart-actions{
+    width:100%;
+  }
+
+  .product-cart-actions .add-cart{
+    flex:1;
+  }
+
+}
+
 .add-cart:hover{
   background:var(--yellow);
   color:var(--black);
@@ -1113,75 +1167,206 @@
         -->
         <div class="product-grid">
 
-  <article class="card">
-  <div class="card-top">
-    <img src="rice-chakuli.jpg" alt="Rice Chakuli">
-  </div>
-  <div class="card-body">
-    <h3>Rice Chakuli</h3>
-    <p>Light, crisp &amp; seriously snackable.</p>
-    <div class="product-bottom">
-      <strong class="product-price">₹65 <span>/ 200g</span></strong>
-      <button class="add-cart"
-        onclick="addToCart('Rice Chakuli', getProductPrice(this))">
-        Add to Cart
-      </button>
+  <!-- RICE CHAKULI -->
+  <article class="card" data-product="Rice Chakuli">
+    <div class="card-top">
+      <img src="rice-chakuli.jpg" alt="Rice Chakuli">
     </div>
-  </div>
-</article>
 
-<article class="card">
-  <div class="card-top">
-    <img src="jackfruit-chips.jpg" alt="Jackfruit Chips">
-  </div>
-  <div class="card-body">
-    <h3>Jackfruit Chips</h3>
-    <p>Golden, crispy &amp; naturally delicious.</p>
-    <div class="product-bottom">
-      <strong class="product-price">₹180 <span>/ 200g</span></strong>
-      <button class="add-cart"
-        onclick="addToCart('Jackfruit Chips', getProductPrice(this))">
-        Add to Cart
-      </button>
-    </div>
-  </div>
-</article>
+    <div class="card-body">
+      <h3>Rice Chakuli</h3>
+      <p>Light, crisp &amp; seriously snackable.</p>
 
-<article class="card">
-  <div class="card-top">
-    <img src="potato-chips.jpg" alt="Potato Chips">
-  </div>
-  <div class="card-body">
-    <h3>Potato Chips</h3>
-    <p>Golden, crunchy slices for every mood.</p>
-    <div class="product-bottom">
-      <strong class="product-price">₹100 <span>/ 200g</span></strong>
-      <button class="add-cart"
-        onclick="addToCart('Potato Chips', getProductPrice(this))">
-        Add to Cart
-      </button>
-    </div>
-  </div>
-</article>
+      <div class="product-bottom">
 
-<article class="card">
-  <div class="card-top">
-    <div class="chip-art" style="transform:scale(.82) rotate(-12deg)"></div>
-  </div>
-  <div class="card-body">
-    <h3>Sev</h3>
-    <p>Fine, crisp strands made for munching.</p>
-    <div class="product-bottom">
-      <strong class="product-price">₹65 <span>/ 200g</span></strong>
-      <button class="add-cart"
-        onclick="addToCart('Sev', getProductPrice(this))">
-        Add to Cart
-      </button>
+        <strong class="product-price">
+          <span class="price-value"></span>
+          <span>/ 200g</span>
+        </strong>
+
+        <div class="product-cart-actions">
+
+          <div class="product-quantity">
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, -1)">
+              −
+            </button>
+
+            <span>1</span>
+
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, 1)">
+              +
+            </button>
+          </div>
+
+          <button
+            class="add-cart"
+            type="button"
+            onclick="addProductToCart(this, 'Rice Chakuli')">
+            Add to Cart
+          </button>
+
+        </div>
+
+      </div>
     </div>
-  </div>
-</article>
+  </article>
+
+
+  <!-- JACKFRUIT CHIPS -->
+  <article class="card" data-product="Jackfruit Chips">
+    <div class="card-top">
+      <img src="jackfruit-chips.jpg" alt="Jackfruit Chips">
+    </div>
+
+    <div class="card-body">
+      <h3>Jackfruit Chips</h3>
+      <p>Golden, crispy &amp; naturally delicious.</p>
+
+      <div class="product-bottom">
+
+        <strong class="product-price">
+          <span class="price-value"></span>
+          <span>/ 200g</span>
+        </strong>
+
+        <div class="product-cart-actions">
+
+          <div class="product-quantity">
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, -1)">
+              −
+            </button>
+
+            <span>1</span>
+
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, 1)">
+              +
+            </button>
+          </div>
+
+          <button
+            class="add-cart"
+            type="button"
+            onclick="addProductToCart(this, 'Jackfruit Chips')">
+            Add to Cart
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </article>
+
+
+  <!-- POTATO CHIPS -->
+  <article class="card" data-product="Potato Chips">
+    <div class="card-top">
+      <img src="potato-chips.jpg" alt="Potato Chips">
+    </div>
+
+    <div class="card-body">
+      <h3>Potato Chips</h3>
+      <p>Golden, crunchy slices for every mood.</p>
+
+      <div class="product-bottom">
+
+        <strong class="product-price">
+          <span class="price-value"></span>
+          <span>/ 200g</span>
+        </strong>
+
+        <div class="product-cart-actions">
+
+          <div class="product-quantity">
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, -1)">
+              −
+            </button>
+
+            <span>1</span>
+
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, 1)">
+              +
+            </button>
+          </div>
+
+          <button
+            class="add-cart"
+            type="button"
+            onclick="addProductToCart(this, 'Potato Chips')">
+            Add to Cart
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </article>
+
+
+  <!-- SEV -->
+  <article class="card" data-product="Sev">
+    <div class="card-top">
+      <div
+        class="chip-art"
+        style="transform:scale(.82) rotate(-12deg)">
+      </div>
+    </div>
+
+    <div class="card-body">
+      <h3>Sev</h3>
+      <p>Fine, crisp strands made for munching.</p>
+
+      <div class="product-bottom">
+
+        <strong class="product-price">
+          <span class="price-value"></span>
+          <span>/ 200g</span>
+        </strong>
+
+        <div class="product-cart-actions">
+
+          <div class="product-quantity">
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, -1)">
+              −
+            </button>
+
+            <span>1</span>
+
+            <button
+              type="button"
+              onclick="changeProductQuantity(this, 1)">
+              +
+            </button>
+          </div>
+
+          <button
+            class="add-cart"
+            type="button"
+            onclick="addProductToCart(this, 'Sev')">
+            Add to Cart
+          </button>
+
+        </div>
+
+      </div>
+    </div>
+  </article>
 
 </div>
+<!-- product end -->
         <!--   product end -->
       </div>
     </section>
@@ -1212,22 +1397,99 @@
 
   <footer><div class="container footer-inner"><strong>Ashwini's Snack Party</strong><small>© 2026 Ashwini's Snack Party. All rights reserved.</small></div></footer>
   <script>
-let cart = JSON.parse(localStorage.getItem('ashwiniCart')) || [];
+const PRODUCTS = {
 
-    let couponCode = '';
+  "Rice Chakuli": {
+    price: 65,
+    weight: 0.2
+  },
+
+  "Jackfruit Chips": {
+    price: 180,
+    weight: 0.2
+  },
+
+  "Potato Chips": {
+    price: 100,
+    weight: 0.2
+  },
+
+  "Sev": {
+    price: 65,
+    weight: 0.2
+  }
+
+};
+
+
+let cart = JSON.parse(
+  localStorage.getItem('ashwiniCart')
+) || [];
+
+
+/*
+ * Make sure old cart items always
+ * use the current product price.
+ */
+cart = cart.map(item => {
+
+  if(PRODUCTS[item.name]){
+
+    return {
+      ...item,
+      price: PRODUCTS[item.name].price
+    };
+
+  }
+
+  return item;
+
+});
+
+
+let couponCode = '';
+
+
 function saveCart(){
-  localStorage.setItem('ashwiniCart', JSON.stringify(cart));
+
+  localStorage.setItem(
+    'ashwiniCart',
+    JSON.stringify(cart)
+  );
+
 }
 
-function getProductPrice(button) {
-  const priceText = button
-    .closest(".product-bottom")
-    .querySelector(".product-price")
-    .childNodes[0]
-    .textContent;
+function renderProductPrices(){
 
-  return Number(priceText.replace(/[^\d.]/g, ""));
+  document
+    .querySelectorAll('.card[data-product]')
+    .forEach(card => {
+
+      const productName =
+        card.dataset.product;
+
+      const product =
+        PRODUCTS[productName];
+
+      if(!product){
+        return;
+      }
+
+      const priceElement =
+        card.querySelector('.price-value');
+
+      if(priceElement){
+        priceElement.textContent =
+          '₹' + product.price;
+      }
+
+    });
+
 }
+
+   renderProductPrices();
+
+
 
 function applyCoupon(){
   const input = document.getElementById('coupon-code');
@@ -1339,23 +1601,87 @@ const orderItems = completedCart.map(item => `
 }
 
     
-function addToCart(name, price){
+function changeProductQuantity(button, change){
 
-  const existing = cart.find(item => item.name === name);
+  const quantityBox =
+    button.closest('.product-quantity');
+
+  const quantityNumber =
+    quantityBox.querySelector('span');
+
+  let quantity =
+    Number(quantityNumber.textContent);
+
+  quantity += change;
+
+  if(quantity < 1){
+    quantity = 1;
+  }
+
+  if(quantity > 100){
+    quantity = 100;
+  }
+
+  quantityNumber.textContent = quantity;
+}
+
+
+function addProductToCart(button, productName){
+
+  const product = PRODUCTS[productName];
+
+  if(!product){
+    alert('Product not found.');
+    return;
+  }
+
+  const quantityBox =
+    button
+      .closest('.product-cart-actions')
+      .querySelector('.product-quantity');
+
+  const quantity =
+    Number(
+      quantityBox
+        .querySelector('span')
+        .textContent
+    );
+
+
+  const existing =
+    cart.find(item => item.name === productName);
+
 
   if(existing){
-    existing.quantity++;
+
+    existing.quantity += quantity;
+
   }else{
+
     cart.push({
-      name:name,
-      price:price,
-      quantity:1
+      name: productName,
+      price: product.price,
+      quantity: quantity
     });
+
   }
+
 
   saveCart();
   renderCart();
-  openCart();
+
+
+  /* Reset product quantity to 1 */
+  quantityBox.querySelector('span').textContent = '1';
+
+
+  /* Small confirmation */
+  button.textContent = 'Added ✓';
+
+  setTimeout(() => {
+    button.textContent = 'Add to Cart';
+  }, 1200);
+
 }
 
 function changeQuantity(name, change){
