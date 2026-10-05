@@ -2213,12 +2213,16 @@ async function submitCheckout(event){
         }
 
 const completedCart = [...cart];
+
 showOrderConfirmation(
   paymentResponse,
   completedCart,
   verifyData.amount_paise
 );
+
 cart = [];
+couponCode = '';
+
 saveCart();
 renderCart();
 closeCheckout();
