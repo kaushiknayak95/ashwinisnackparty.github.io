@@ -1757,7 +1757,58 @@
     <section class="contact" id="contact">
       <div class="container contact-grid">
         <div class="contact-info"><div class="kicker">Let's talk snacks</div><h2>Bring the party to your store.</h2><div class="contact-row"><small>WhatsApp</small><a href="https://wa.me/917019259405">+91 7019259405</a></div><div class="contact-row"><small>Email</small><a href="mailto:hello@ashwinisnackparty.com">hello@ashwinisnackparty.com</a></div><div class="contact-row"><small>Location</small><span>Udupi, Karnataka, India</span></div><div class="contact-row"><small>Instagram</small><a href="https://www.instagram.com/ashwinisnackparty/" target="_blank">@ashwinisnackparty</a></div></div>
-        <div><div class="kicker">Enquiry</div><h2>Say hello.</h2><form action="https://formspree.io/f/mgavjwqq" method="POST"><div><label for="name">Name</label><input id="name" name="name" required placeholder="Your name"></div><div><label for="phone">Mobile</label><input id="phone" name="phone" required placeholder="Your mobile number"></div><div><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell us what you need..."></textarea></div><button class="btn btn-black" type="submit">Send enquiry →</button></form></div>
+        <div><div class="kicker">Enquiry</div><h2>Say hello.</h2>```html
+<form action="https://formspree.io/f/mgavjwqq" method="POST">
+
+  <div>
+    <label for="name">Name</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      required
+      minlength="2"
+      maxlength="50"
+      pattern="[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[ '-][A-Za-zÀ-ÖØ-öø-ÿ]+)*"
+      title="Please enter a valid name using letters, spaces, apostrophes or hyphens."
+      autocomplete="name"
+      placeholder="Your name">
+  </div>
+
+  <div>
+    <label for="phone">Mobile</label>
+    <input
+      id="phone"
+      name="phone"
+      type="tel"
+      required
+      inputmode="numeric"
+      maxlength="10"
+      pattern="[6-9][0-9]{9}"
+      title="Please enter a valid 10-digit Indian mobile number."
+      autocomplete="tel"
+      placeholder="10-digit mobile number">
+  </div>
+
+  <div>
+    <label for="message">Message</label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      minlength="10"
+      maxlength="1000"
+      title="Please enter at least 10 characters."
+      placeholder="Tell us what you need..."></textarea>
+  </div>
+
+  <button class="btn btn-black" type="submit">
+    Send enquiry →
+  </button>
+
+</form>
+```
+</div>
       </div>
     </section>
   </main>
