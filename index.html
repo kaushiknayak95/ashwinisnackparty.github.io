@@ -1863,7 +1863,7 @@ cart = cart
     PRODUCTS[item.name] &&
     Number.isInteger(Number(item.quantity)) &&
     Number(item.quantity) >= 1 &&
-    Number(item.quantity) <= 100
+    Number(item.quantity) <= 20
   )
   .map(item => ({
     name: item.name,
@@ -2080,10 +2080,16 @@ function changeQuantity(name, change){
 
   if(!item) return;
 
-  item.quantity += change;
+  const newQuantity = item.quantity + change;
 
-  if(item.quantity <= 0){
+  if(newQuantity > 20){
+    return;
+  }
+
+  if(newQuantity <= 0){
     cart = cart.filter(item => item.name !== name);
+  }else{
+    item.quantity = newQuantity;
   }
 
   saveCart();
