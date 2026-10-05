@@ -2008,9 +2008,9 @@ function changeProductQuantity(button, change){
     quantity = 1;
   }
 
-  if(quantity > 100){
-    quantity = 100;
-  }
+  if(quantity > 20){
+  quantity = 20;
+}
 
   quantityNumber.textContent = quantity;
 }
@@ -2044,17 +2044,29 @@ function addProductToCart(button, productName){
 
   if(existing){
 
-    existing.quantity += quantity;
+  const newQuantity = existing.quantity + quantity;
 
-  }else{
-
-    cart.push({
-      name: productName,
-      price: product.price,
-      quantity: quantity
-    });
-
+  if(newQuantity > 20){
+    alert('Maximum 20 units per product.');
+    return;
   }
+
+  existing.quantity = newQuantity;
+
+}else{
+
+  if(quantity > 20){
+    alert('Maximum 20 units per product.');
+    return;
+  }
+
+  cart.push({
+    name: productName,
+    price: product.price,
+    quantity: quantity
+  });
+
+}
 
 
   saveCart();
