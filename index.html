@@ -304,7 +304,14 @@
   white-space:nowrap;
 }
 
-.card .product-bottom strong.product-price span{
+.card .product-bottom strong.product-price .price-value{
+  font-size:1.35rem;
+  color:var(--black);
+  font-weight:900;
+  letter-spacing:0;
+}
+
+.card .product-bottom strong.product-price span:not(.price-value){
   font-size:.82rem;
   color:#666;
   font-weight:600;
