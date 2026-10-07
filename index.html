@@ -1966,7 +1966,7 @@ function escapeHTML(value){
 function showOrderConfirmation(paymentResponse, completedCart, amountPaise) {  const customer = JSON.parse(
     localStorage.getItem('ashwiniCustomer') || '{}'
   );
-
+  localStorage.removeItem('ashwiniCustomer');
 const total = `₹${(amountPaise / 100).toFixed(2)}`;
 
                                                                              
