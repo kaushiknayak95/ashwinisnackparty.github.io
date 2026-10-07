@@ -165,6 +165,9 @@
     .chip-art:before,.chip-art:after{content:"";position:absolute;background:var(--yellow);border-radius:50%}
     .chip-art:before{width:22px;height:22px;top:27px;left:30px;box-shadow:42px 19px 0 var(--yellow),15px 57px 0 var(--yellow),62px 67px 0 var(--yellow)}
     .chip-art:after{width:9px;height:9px;top:67px;left:85px}
+    .sev-chip-art{
+  transform:scale(.82) rotate(-12deg);
+}
     .card-body{padding:18px;position:relative;background:var(--white);margin-top:0}    .card h3{font-size:1.35rem;text-transform:uppercase;letter-spacing:-.03em}
     .card p{font-size:.88rem;color:#5a5a5a;margin-top:4px}
     .arrow{position:absolute;right:15px;bottom:17px;width:36px;height:36px;border-radius:50%;background:var(--black);color:var(--yellow);display:grid;place-items:center;font-weight:900}
@@ -1282,22 +1285,22 @@
       <button class="menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">Menu</button>
       -->
       <nav aria-label="Main navigation">
- <a href="#home" onclick="document.querySelector('nav').classList.remove('mobile-open')">Home</a>
-<a href="#products" onclick="document.querySelector('nav').classList.remove('mobile-open')">Products</a>
-<a href="#about" onclick="document.querySelector('nav').classList.remove('mobile-open')">About</a>
-<a href="#quality" onclick="document.querySelector('nav').classList.remove('mobile-open')">Quality</a>
-<a href="#contact" class="nav-cta" onclick="document.querySelector('nav').classList.remove('mobile-open')">Contact</a>
+<a href="#home">Home</a>
+<a href="#products">Products</a>
+<a href="#about">About</a>
+<a href="#quality">Quality</a>
+<a href="#contact" class="nav-cta">Contact</a>
   </nav>
 
 <div class="nav-actions">
   
 
-  <button class="menu" onclick="document.querySelector('nav').classList.toggle('mobile-open')">
-    Menu
-  </button>
+ <button class="menu" id="menu-button" type="button">
+  Menu
+</button>
 
-  <button class="cart-button" onclick="openCart()" aria-label="Shopping cart">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
+<button class="cart-button" id="cart-button" type="button" aria-label="Shopping cart">
+ <svg viewBox="0 0 24 24" aria-hidden="true">
     <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 1.9-1.4L21 7H6"/>
     <circle cx="10" cy="20" r="1.5"/>
     <circle cx="18" cy="20" r="1.5"/>
@@ -1308,13 +1311,12 @@
       <!--   shopping end  -->
     </div>
   </header>
-  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
-
+<div class="cart-overlay" id="cart-overlay"></div>
 <aside class="cart-drawer" id="cart-drawer" aria-label="Shopping cart">
 
   <div class="cart-header">
     <h2>Your Cart</h2>
-    <button class="cart-close" onclick="closeCart()" aria-label="Close cart">×</button>
+<button class="cart-close" id="cart-close-button" type="button" aria-label="Close cart">×</button>
   </div>
 
   <div class="cart-items" id="cart-items">
@@ -1358,8 +1360,8 @@
     <strong id="cart-subtotal">₹0</strong>
   </div>
 
-  <button class="checkout-button" onclick="openCheckout()">
-    Proceed to Checkout →
+<button class="checkout-button" id="checkout-button" type="button">
+ Proceed to Checkout →
    </button>
 
 </div>
@@ -1370,7 +1372,7 @@
   <div class="checkout-container">
 
     <div class="checkout-header">
-      <button class="back-button" onclick="closeCheckout()">← Back to Cart</button>
+      <button class="back-button" id="checkout-back-button" type="button">← Back to Cart</button>
       <h2>Checkout</h2>
     </div>
 
@@ -1383,8 +1385,7 @@
         <div class="kicker">Delivery details</div>
         <h2>Where should we send your snacks?</h2>
 
-        <form id="checkout-form" onsubmit="submitCheckout(event)">
-
+<form id="checkout-form">
           <div class="checkout-field">
             <label for="checkout-name">Full name</label>
             <input
@@ -1572,27 +1573,23 @@
         <div class="product-cart-actions">
 
           <div class="product-quantity">
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, -1)">
+            <button type="button">
               −
             </button>
 
             <span>1</span>
 
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, 1)">
+            <button type="button">
               +
             </button>
           </div>
 
           <button
-            class="add-cart"
-            type="button"
-            onclick="addProductToCart(this, 'Rice Chakuli')">
-            Add to Cart
-          </button>
+  class="add-cart"
+  type="button"
+  data-product="Rice Chakuli">
+  Add to Cart
+</button>
 
         </div>
 
@@ -1621,27 +1618,23 @@
         <div class="product-cart-actions">
 
           <div class="product-quantity">
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, -1)">
+            <button type="button">
               −
             </button>
 
             <span>1</span>
 
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, 1)">
+            <button type="button">
               +
             </button>
           </div>
 
-          <button
-            class="add-cart"
-            type="button"
-            onclick="addProductToCart(this, 'Jackfruit Chips')">
-            Add to Cart
-          </button>
+        <button
+  class="add-cart"
+  type="button"
+  data-product="Jackfruit Chips">
+  Add to Cart
+</button>
 
         </div>
 
@@ -1669,27 +1662,23 @@
         <div class="product-cart-actions">
 
           <div class="product-quantity">
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, -1)">
+            <button type="button">
               −
             </button>
 
             <span>1</span>
 
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, 1)">
+            <button type="button">
               +
             </button>
           </div>
 
           <button
-            class="add-cart"
-            type="button"
-            onclick="addProductToCart(this, 'Potato Chips')">
-            Add to Cart
-          </button>
+  class="add-cart"
+  type="button"
+  data-product="Potato Chips">
+  Add to Cart
+</button>
 
         </div>
 
@@ -1701,10 +1690,7 @@
   <!-- SEV -->
   <article class="card" data-product="Sev">
     <div class="card-top">
-      <div
-        class="chip-art"
-        style="transform:scale(.82) rotate(-12deg)">
-      </div>
+      <div class="chip-art sev-chip-art"></div>
     </div>
 
     <div class="card-body">
@@ -1721,27 +1707,23 @@
         <div class="product-cart-actions">
 
           <div class="product-quantity">
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, -1)">
+            <button type="button">
               −
             </button>
 
             <span>1</span>
 
-            <button
-              type="button"
-              onclick="changeProductQuantity(this, 1)">
+            <button type="button">
               +
             </button>
           </div>
 
           <button
-            class="add-cart"
-            type="button"
-            onclick="addProductToCart(this, 'Sev')">
-            Add to Cart
-          </button>
+  class="add-cart"
+  type="button"
+  data-product="Sev">
+  Add to Cart
+</button>
 
         </div>
 
@@ -1807,17 +1789,16 @@
   <div>
     <label for="phone">Mobile</label>
     <input
-      id="phone"
-      name="phone"
-      type="tel"
-      required
-      inputmode="numeric"
-      maxlength="10"
-      pattern="[6-9][0-9]{9}"
-      title="Please enter a valid 10-digit Indian mobile number."
-      autocomplete="tel"
-      placeholder="10-digit mobile number"
-      oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+  id="phone"
+  name="phone"
+  type="tel"
+  required
+  inputmode="numeric"
+  maxlength="10"
+  pattern="[6-9][0-9]{9}"
+  title="Please enter a valid 10-digit Indian mobile number."
+  autocomplete="tel"
+  placeholder="10-digit mobile number">
   </div>
 
   <div>
@@ -2016,16 +1997,23 @@ const orderItems = completedCart.map(item => `
         Your order has been received and will be processed shortly.
       </p>
 
-      <button
-        class="confirmation-home"
-        onclick="document.getElementById('order-confirmation').remove()"
-      >
-        Back to Home
-      </button>
+     <button
+  class="confirmation-home"
+  id="confirmation-home-button"
+  type="button"
+>
+  Back to Home
+</button>
     </div>
   `;
 
   document.body.appendChild(confirmation);
+  confirmation
+  .querySelector('#confirmation-home-button')
+  .addEventListener('click', () => {
+    confirmation.remove();
+  });
+                                                                             
 }
 
     
@@ -2304,27 +2292,33 @@ function renderCart(){
 
           <div class="cart-controls">
 
-            <button
-              class="quantity-button"
-              onclick="changeQuantity(atob('${btoa(item.name)}'), -1)">
-              −
-            </button>
+           <button
+  class="quantity-button"
+  type="button"
+  data-action="decrease"
+  data-product="${escapeHTML(item.name)}">
+  −
+</button>
 
-            <span class="quantity">
-              ${escapeHTML(item.quantity)}
-            </span>
+<span class="quantity">
+  ${escapeHTML(item.quantity)}
+</span>
 
-            <button
-              class="quantity-button"
-             onclick="changeQuantity(atob('${btoa(item.name)}'), 1)">
-              +
-            </button>
+<button
+  class="quantity-button"
+  type="button"
+  data-action="increase"
+  data-product="${escapeHTML(item.name)}">
+  +
+</button>
 
-            <button
-              class="remove-item"
-              onclick="removeFromCart(atob('${btoa(item.name)}'))">
-              Remove
-            </button>
+<button
+  class="remove-item"
+  type="button"
+  data-action="remove"
+  data-product="${escapeHTML(item.name)}">
+  Remove
+</button>
 
           </div>
 
@@ -2338,7 +2332,27 @@ function renderCart(){
       </div>
     `;
 
-  }).join('');
+    }).join('');
+
+  document.querySelectorAll('.quantity-button[data-action]').forEach(button => {
+    button.addEventListener('click', () => {
+      const productName = button.dataset.product;
+
+      if(button.dataset.action === 'decrease'){
+        changeQuantity(productName, -1);
+      }
+
+      if(button.dataset.action === 'increase'){
+        changeQuantity(productName, 1);
+      }
+    });
+  });
+
+  document.querySelectorAll('.remove-item[data-action="remove"]').forEach(button => {
+    button.addEventListener('click', () => {
+      removeFromCart(button.dataset.product);
+    });
+  });
 
 }
 function openCart(){
@@ -2591,7 +2605,24 @@ closeCheckout();
     );
   }
 }
+  
+document.querySelectorAll('.product-quantity button').forEach(button => {
+  button.addEventListener('click', () => {
+    const change =
+      button.textContent.trim() === '−' ? -1 : 1;
 
+    changeProductQuantity(button, change);
+  });
+});
+
+document.querySelectorAll('.add-cart[data-product]').forEach(button => {
+  button.addEventListener('click', () => {
+    addProductToCart(
+      button,
+      button.dataset.product
+    );
+  });
+});
 renderCart();
 </script>
 </body>
