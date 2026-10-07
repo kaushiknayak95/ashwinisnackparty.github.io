@@ -16,7 +16,7 @@
   "name": "Ashwini's Snack Party",
   "url": "https://ashwinisnackparty.com/",
   "logo": "https://ashwinisnackparty.com/logo.png", 
-  "sameAs": [
+  "sameAs": [ 
     "https://www.instagram.com/ashwinisnackparty/"
   ],
   "telephone": "+917019259405",
@@ -993,7 +993,11 @@
   background:var(--yellow);
   color:var(--black);
 }
-
+.checkout-pay-button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+  transform:none;
+}
 .checkout-summary{
   background:var(--yellow);
   border-radius:24px;
@@ -2475,10 +2479,26 @@ function renderCheckout(){
 }
 
 
+let paymentInProgress = false;
+
 async function submitCheckout(event){
   event.preventDefault();
 
+  if(paymentInProgress){
+    return;
+  }
+
   const form = document.getElementById('checkout-form');
+
+  const payButton =
+    form.querySelector('.checkout-pay-button');
+
+  paymentInProgress = true;
+
+  if(payButton){
+    payButton.disabled = true;
+    payButton.textContent = 'Starting payment…';
+  }
 
   if(!form.checkValidity()){
     form.reportValidity();
@@ -2582,23 +2602,56 @@ closeCheckout();
       },
 
       modal: {
-        ondismiss: function(){
-          console.log('Razorpay checkout closed.');
-        }
-      },
+  ondismiss: function(){
+
+    paymentInProgress = false;
+
+    if(payButton){
+      payButton.disabled = false;
+      payButton.textContent = 'Continue to Payment →';
+    }
+
+    console.log('Razorpay checkout closed.');
+  }
+},
 
       theme: {
         color: '#FDD204'
       }
     };
 
-    const razorpay = new Razorpay(options);
+   const razorpay = new Razorpay(options);
 
-    razorpay.open();
+try {
 
-  } catch(error) {
+  razorpay.open();
+
+} catch(error) {
+
+  console.error(error);
+
+  paymentInProgress = false;
+
+  if(payButton){
+    payButton.disabled = false;
+    payButton.textContent = 'Continue to Payment →';
+  }
+
+  alert(
+    'Unable to start payment. Please try again.'
+  );
+}
+
+    } catch(error) {
 
     console.error(error);
+
+    paymentInProgress = false;
+
+    if(payButton){
+      payButton.disabled = false;
+      payButton.textContent = 'Continue to Payment →';
+    }
 
     alert(
       'Unable to start payment. Please try again.'
