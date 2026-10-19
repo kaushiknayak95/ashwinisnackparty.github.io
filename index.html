@@ -2480,7 +2480,7 @@ function renderCheckout(){
 
 
 let paymentInProgress = false;
-
+let activeCheckoutId = null;
 async function submitCheckout(event){
   event.preventDefault();
 
@@ -2526,7 +2526,9 @@ async function submitCheckout(event){
     'ashwiniCustomer',
     JSON.stringify(customer)
   );
-
+  if (!activeCheckoutId) {
+  activeCheckoutId = crypto.randomUUID();
+}
   try {
 
     const response = await fetch(
@@ -2537,6 +2539,7 @@ async function submitCheckout(event){
           'Content-Type': 'application/json'
         },
          body: JSON.stringify({
+  checkout_id: activeCheckoutId,
   cart: cart,
   customer: customer
 })
