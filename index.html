@@ -1,6 +1,6 @@
  <!doctype html>
 <html lang="en">
-<head>
+<head> 
   <link rel="icon" type="image/png" href="favicon.png">
   
   <meta charset="utf-8">
@@ -1354,7 +1354,7 @@
 
     <div class="shipping-progress-bottom">
       <span id="shipping-progress-current">₹0</span>
-      <span>₹800</span>
+      <span>₹399</span>
     </div>
 
   </div>
@@ -2187,7 +2187,7 @@ function renderCart(){
 
   /* FREE SHIPPING PROGRESS */
 
-  const FREE_SHIPPING_LIMIT = 800;
+  const FREE_SHIPPING_LIMIT = 399;
 
   const progress =
     Math.min(
@@ -2445,7 +2445,7 @@ function renderCheckout(){
 
   let shipping = 0;
 
-  if(subtotal < 800){
+  if(subtotal < 399){
 
     if(weightKg <= 1){
       shipping = 100;
@@ -2468,7 +2468,7 @@ function renderCheckout(){
 
   totalElement.textContent = '₹' + grandTotal;
 
-  if(subtotal >= 800){
+  if(subtotal >= 399){
     shippingNote.innerHTML =
       '<strong>Free shipping!</strong> Your order is ₹800 or more.';
   }else{
