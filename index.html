@@ -2408,6 +2408,7 @@ function closeCheckout(){
 }
 
 
+
 function renderCheckout(){
   const summary = document.getElementById('checkout-summary-items');
   const totalElement = document.getElementById('checkout-total');
@@ -2421,62 +2422,47 @@ function renderCheckout(){
   }
 
   let subtotal = 0;
-  let totalQuantity = 0;
 
   summary.innerHTML = cart.map(item => {
     const itemTotal = item.price * item.quantity;
     subtotal += itemTotal;
-    totalQuantity += item.quantity;
 
     return `
       <div class="checkout-summary-item">
         <div>
-            <div class="checkout-summary-item-name">${escapeHTML(item.name)}</div>
-            <div class="checkout-summary-item-details">
+          <div class="checkout-summary-item-name">
+            ${escapeHTML(item.name)}
+          </div>
+          <div class="checkout-summary-item-details">
             ${escapeHTML(item.quantity)} × 200g × ₹${escapeHTML(item.price)}
           </div>
         </div>
-        <div class="checkout-summary-item-price">₹${escapeHTML(itemTotal)}</div>
+        <div class="checkout-summary-item-price">
+          ₹${escapeHTML(itemTotal)}
+        </div>
       </div>
     `;
   }).join('');
 
-  const weightKg = totalQuantity * 0.2;
+  const FREE_SHIPPING_LIMIT = 399;
+  const SHIPPING_FEE = 100;
 
-  let shipping = 0;
-
-  if(subtotal < 399){
-
-    if(weightKg <= 1){
-      shipping = 100;
-    }else if(weightKg <= 2){
-      shipping = 150;
-    }else if(weightKg <= 3){
-      shipping = 200;
-    }else{
-      shipping = 250;
-
-      if(weightKg > 5){
-        const extraKg = Math.ceil(weightKg - 5);
-        shipping += extraKg * 50;
-      }
-    }
-
-  }
+  const shipping =
+    subtotal >= FREE_SHIPPING_LIMIT ? 0 : SHIPPING_FEE;
 
   const grandTotal = subtotal + shipping;
 
   totalElement.textContent = '₹' + grandTotal;
 
-  if(subtotal >= 399){
+  if (shipping === 0) {
     shippingNote.innerHTML =
-      '<strong>Free shipping!</strong> Your order is ₹800 or more.';
-  }else{
+      '<strong>Free shipping!</strong> Your order qualifies for free shipping on orders of ₹399 or more.';
+  } else {
     shippingNote.innerHTML =
-      `Order weight: <strong>${weightKg.toFixed(1)} kg</strong> · ` +
-      `Shipping: <strong>₹${shipping}</strong>`;
+      `Shipping fee: <strong>₹${shipping}</strong>. Add ₹${FREE_SHIPPING_LIMIT - subtotal} more for free shipping.`;
   }
 }
+
 
 
 let paymentInProgress = false;
